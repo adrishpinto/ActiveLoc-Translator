@@ -2,3 +2,11 @@
 BDR working.txt
 
 node_modules/
+
+upload
+
+blobDownload.js
+
+blobList.js
+
+blobUploadBE.js
