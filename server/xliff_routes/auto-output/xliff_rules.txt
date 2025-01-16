@@ -1,0 +1,7 @@
+2.0 should not cause a new sentence 
+new line should cause a new sentence
+this sentence is split. as there is a fullstop
+this sentence is split? as there is a Question mark
+this sentence is split! as there is a Exclaimation mark
+Dr. Rs. Mr. Ms. etc. e.g. and more will not cause a split
+elipses should not cause a split... this will be one sentence
