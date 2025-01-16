@@ -7,7 +7,7 @@ dotenv.config();
 
 const router = Router();
 
-const CONNECTION_STRING = process.env.TARGET_CONNECTION_STRING;
+const CONNECTION_STRING = process.env.STORAGE_CONNECTION_STRING;
 const CONTAINER_NAME = "target";
 
 router.get("/download", async (req, res) => {
