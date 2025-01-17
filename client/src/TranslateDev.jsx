@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+// Import the VITE_URL from environment variables once
+const API_URL = import.meta.env.VITE_URL;
+
 const TranslateDev = () => {
   const [file, setFile] = useState(null);
   const [language, setLanguage] = useState("fr");
@@ -20,10 +23,7 @@ const TranslateDev = () => {
     formData.append("file", file);
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/upload",
-        formData
-      );
+      const response = await axios.post(`${API_URL}api/upload`, formData);
       console.log("File uploaded successfully", response.data);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -31,10 +31,8 @@ const TranslateDev = () => {
   };
 
   const translateFile = async () => {
-    const url = "http://localhost:5000/translate";
-    const data = {
-      language,
-    };
+    const url = `${API_URL}translate`;
+    const data = { language };
 
     try {
       const response = await axios.post(url, data);
@@ -43,9 +41,10 @@ const TranslateDev = () => {
       console.error("Error:", error);
     }
   };
+
   const xliffDownload = async () => {
     try {
-      const response = await fetch("http://localhost:5000/xliff");
+      const response = await fetch(`${API_URL}xliff`);
 
       if (!response.ok) {
         throw new Error("Failed to download the file");
@@ -70,13 +69,13 @@ const TranslateDev = () => {
   const download = async () => {
     try {
       // Step 1: Fetch the file extension
-      const extensionRes = await axios.get("http://localhost:5000/extension");
+      const extensionRes = await axios.get(`${API_URL}extension`);
       let { extension } = extensionRes.data;
       if (extension == "ocx") {
         extension = "docx";
       }
 
-      const res = await axios.get("http://localhost:5000/download", {
+      const res = await axios.get(`${API_URL}download`, {
         responseType: "blob",
       });
 
@@ -170,39 +169,3 @@ const TranslateDev = () => {
 };
 
 export default TranslateDev;
-
-// const download = async () => {
-//   try {
-//     const res = await axios.get("http://localhost:5000/download", {
-//       responseType: "blob",
-//     });
-
-//     console.log(res);
-
-//     const fileURL = window.URL.createObjectURL(new Blob([res.data]));
-
-//     const disposition = res.headers['content-disposition'];
-//     let fileName = 'downloaded-file';
-
-//     if (disposition) {
-//       const matches = /filename="(.+)"/.exec(disposition);
-//       if (matches != null && matches[1]) {
-//         fileName = matches[1];
-//       }
-//     }
-
-//     const link = document.createElement("a");
-//     link.href = fileURL;
-//     link.setAttribute("download", fileName);
-//     document.body.appendChild(link);
-//     link.click();
-
-//     document.body.removeChild(link);
-//     window.URL.revokeObjectURL(fileURL);
-
-//     alert("Download successful! Please check your Downloads folder.");
-//   } catch (error) {
-//     console.error("Error:", error);
-//     alert("Download failed. Please try again.");
-//   }
-// };
